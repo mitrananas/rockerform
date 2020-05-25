@@ -1,26 +1,26 @@
 import React, { useEffect } from "react";
 import {
+  Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Platform,
   Text,
   View,
   Button,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import Personnummer from "personnummer";
-import { validator } from "telefonnummer";
-import { isValidEmail, isValidCountry } from "../helpers/validate";
 import FormInput from "../components/FormInput";
 import PickerSelect from "../components/PickerSelect";
+import { BACKGROUND_COLOR, TITLE_COLOR } from "../constants";
 import {
-  addCountries,
-  submitFormSuccess,
-  submitFormError,
-  updateField,
-} from "../actions";
+  validateCountry,
+  validateEmail,
+  validatePhoneNumber,
+  validateSSN,
+  validateAll,
+} from "../helpers/validate";
+import { addCountries, submitFormSuccess, updateField } from "../actions";
 
 export default function Form() {
   const dispatch = useDispatch();
@@ -43,47 +43,10 @@ export default function Form() {
     dispatch(updateField(fieldName, fieldValue));
   };
 
-  const validateSSN = (ssn: string) => {
-    if (!Personnummer.valid(ssn)) {
-      dispatch(submitFormError("ssn", "Invalid SSN"));
-    } else {
-      dispatch(submitFormError("ssn", ""));
-    }
-  };
-
-  const validatePhoneNumber = (phoneNumber: string) => {
-    if (!validator(phoneNumber)) {
-      dispatch(submitFormError("phoneNumber", "Invalid Swedish phone number"));
-    } else {
-      dispatch(submitFormError("phoneNumber", ""));
-    }
-  };
-
-  const validateEmail = (email: string) => {
-    if (!isValidEmail(email)) {
-      dispatch(submitFormError("email", "Invalid email address"));
-    } else {
-      dispatch(submitFormError("email", ""));
-    }
-  };
-
-  const validateCountry = (country: string) => {
-    if (!isValidCountry(country)) {
-      dispatch(submitFormError("country", "Select a country"));
-    } else {
-      dispatch(submitFormError("country", ""));
-    }
-  };
-
   const submitRockerForm = () => {
-    const { ssn, email, phoneNumber, country } = form;
+    const { ssn, phoneNumber, email, country } = form;
 
-    if (
-      isValidEmail(email) &&
-      validator(phoneNumber) &&
-      Personnummer.valid(ssn) &&
-      isValidCountry(country)
-    ) {
+    if (validateAll(dispatch, ssn, phoneNumber, email, country)) {
       dispatch(submitFormSuccess());
       console.log("Success");
     }
@@ -142,11 +105,11 @@ export default function Form() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#383e42",
+    backgroundColor: BACKGROUND_COLOR,
   },
   scrollView: {
     flex: 1,
-    backgroundColor: "#383e42",
+    backgroundColor: BACKGROUND_COLOR,
     alignItems: "center",
     justifyContent: "center",
     padding: 15,
@@ -160,6 +123,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     marginBottom: 15,
-    color: "#fff",
+    color: TITLE_COLOR,
   },
 });

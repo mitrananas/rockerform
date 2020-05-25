@@ -1,5 +1,17 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { StyleSheet, View, Text, TextInput } from "react-native";
+import {
+  BORDER_RADIUS,
+  BORDER_WIDTH,
+  INPUT_BACKGROUND_COLOR,
+  INPUT_ERROR_TEXT,
+  INPUT_FONTSIZE,
+  INPUT_HEIGHT,
+  INPUT_PADDING,
+  BORDER_COLOR,
+  BORDER_COLOR_INVALID_INPUT,
+} from "../constants";
 
 interface Props {
   value: string;
@@ -8,7 +20,7 @@ interface Props {
   error: string;
   submitRockerForm(): void;
   updateFormInput(fieldName: string, fieldValue: string): void;
-  validateError(value: string): void;
+  validateError(dispatch: Function, value: string): void;
 }
 
 export default function FormInput({
@@ -20,6 +32,7 @@ export default function FormInput({
   updateFormInput,
   validateError,
 }: Props) {
+  const dispatch = useDispatch();
   const hasError = error.length > 0;
   return (
     <View style={styles.textInputWrapper}>
@@ -32,7 +45,7 @@ export default function FormInput({
         value={value}
         onChangeText={(text) => updateFormInput(name, text)}
         onSubmitEditing={() => submitRockerForm()}
-        onBlur={() => validateError(value)}
+        onBlur={() => validateError(dispatch, value)}
       />
       {hasError && <Text style={styles.errorText}>{error}</Text>}
     </View>
@@ -45,20 +58,20 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   textInputContainer: {
-    height: 60,
-    borderWidth: 2,
-    borderRadius: 8,
-    padding: 8,
-    fontSize: 16,
-    backgroundColor: "#fff",
+    height: INPUT_HEIGHT,
+    borderWidth: BORDER_WIDTH,
+    borderRadius: BORDER_RADIUS,
+    padding: INPUT_PADDING,
+    fontSize: INPUT_FONTSIZE,
+    backgroundColor: INPUT_BACKGROUND_COLOR,
   },
   textInputValid: {
-    borderColor: "gray",
+    borderColor: BORDER_COLOR,
   },
   textInputInvalid: {
-    borderColor: "red",
+    borderColor: BORDER_COLOR_INVALID_INPUT,
   },
   errorText: {
-    color: "#fff",
+    color: INPUT_ERROR_TEXT,
   },
 });
