@@ -113,7 +113,6 @@ export default function Form() {
         countries={countries}
         value={form.country || ""}
         error={errors.country}
-        submitRockerForm={submitRockerForm}
         updateFormInput={updateFormInput}
       />
       <View style={styles.button}>
