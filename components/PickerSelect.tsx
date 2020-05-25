@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Platform, Text, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 
 interface Country {
@@ -28,6 +28,7 @@ export default function PickerSelect({
         style={[
           styles.pickerWrapper,
           error ? styles.inputInvalid : styles.inputValid,
+          Platform.OS === "ios" ? styles.inputIOS : null,
         ]}
       >
         <RNPickerSelect
@@ -56,6 +57,10 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     justifyContent: "center",
     backgroundColor: "#fff",
+  },
+  inputIOS: {
+    padding: 5,
+    fontSize: 16,
   },
   inputValid: {
     borderColor: "gray",
