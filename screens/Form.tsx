@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Platform, Text, View, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Personnummer from "personnummer";
@@ -121,7 +121,7 @@ export default function Form() {
       <View style={styles.button}>
         <Button
           title={"Submit"}
-          color={"#a19196"}
+          color={Platform.OS === "ios" ? "#fff" : "#a19196"}
           onPress={() => submitRockerForm()}
         />
       </View>
