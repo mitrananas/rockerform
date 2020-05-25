@@ -2,10 +2,16 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 
+interface Country {
+  label: string;
+  value: string;
+}
+
 interface Props {
   value: string;
-  countries: Object[];
+  countries: Country[];
   error: string;
+  validateError(value: string): void;
   updateFormInput(fieldName: string, fieldValue: string): void;
 }
 
@@ -13,6 +19,7 @@ export default function PickerSelect({
   countries,
   value,
   error,
+  validateError,
   updateFormInput,
 }: Props) {
   return (
@@ -25,7 +32,10 @@ export default function PickerSelect({
       >
         <RNPickerSelect
           items={countries}
-          onValueChange={(value) => updateFormInput("country", value)}
+          onValueChange={(value) => {
+            validateError(value);
+            updateFormInput("country", value);
+          }}
           value={value}
         />
       </View>

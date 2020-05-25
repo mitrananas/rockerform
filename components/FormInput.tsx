@@ -9,6 +9,7 @@ interface Props {
   error: string;
   submitRockerForm(): void;
   updateFormInput(fieldName: string, fieldValue: string): void;
+  validateError(value: string): void;
 }
 
 export default function FormInput({
@@ -18,6 +19,7 @@ export default function FormInput({
   error,
   submitRockerForm,
   updateFormInput,
+  validateError,
 }: Props) {
   const hasError = error.length > 0;
   return (
@@ -31,6 +33,7 @@ export default function FormInput({
         value={value}
         onChangeText={(text) => updateFormInput(name, text)}
         onSubmitEditing={() => submitRockerForm()}
+        onBlur={() => validateError(value)}
       />
       {hasError && <Text style={styles.errorText}>{error}</Text>}
     </View>

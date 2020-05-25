@@ -1,20 +1,19 @@
 import { combineReducers } from "redux";
-import { purgeStoredState } from "redux-persist";
-import { persistConfig } from "./store";
-
 import {
   ADD_COUNTRIES,
   SUBMIT_FORM_ERROR,
   SUBMIT_FORM_SUCCESS,
   UPDATE_FIELD,
 } from "./actions";
+import { purgeStoredState } from "redux-persist";
+import { persistConfig } from "./store";
 
 export const formState = {
   form: {
     ssn: "",
     phoneNumber: "",
     email: "",
-    country: "",
+    country: undefined,
   },
   errors: { ssn: "", phoneNumber: "", email: "", country: "" },
 };
@@ -27,14 +26,14 @@ const formReducer = (state = formState, action: any) => {
       purgeStoredState(persistConfig);
       return state;
     case SUBMIT_FORM_ERROR:
-      const newErrors = { ...state.errors };
+      const newErrors: any = { ...state.errors };
       newErrors[action.fieldName] = action.error;
       return {
         ...state,
         errors: newErrors,
       };
     case UPDATE_FIELD:
-      const newForm = { ...state.form };
+      const newForm: any = { ...state.form };
       newForm[action.fieldName] = action.fieldValue;
       return { ...state, form: newForm };
     default:

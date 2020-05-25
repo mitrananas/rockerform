@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Personnummer from "personnummer";
 import { validator } from "telefonnummer";
-import { validateEmail, validateCountry } from "../helpers/validate";
+import { isValidEmail, isValidCountry } from "../helpers/validate";
 import FormInput from "../components/FormInput";
 import PickerSelect from "../components/PickerSelect";
 import {
@@ -35,31 +35,32 @@ export default function Form() {
     dispatch(updateField(fieldName, fieldValue));
   };
 
-  const validateErrors = (
-    ssn: string,
-    phoneNumber: string,
-    email: string,
-    country: string
-  ) => {
+  const validateSSN = (ssn: string) => {
     if (!Personnummer.valid(ssn)) {
       dispatch(submitFormError("ssn", "Invalid SSN"));
     } else {
       dispatch(submitFormError("ssn", ""));
     }
+  };
 
+  const validatePhoneNumber = (phoneNumber: string) => {
     if (!validator(phoneNumber)) {
       dispatch(submitFormError("phoneNumber", "Invalid Swedish phone number"));
     } else {
       dispatch(submitFormError("phoneNumber", ""));
     }
+  };
 
-    if (!validateEmail(email)) {
+  const validateEmail = (email: string) => {
+    if (!isValidEmail(email)) {
       dispatch(submitFormError("email", "Invalid email address"));
     } else {
       dispatch(submitFormError("email", ""));
     }
+  };
 
-    if (!validateCountry(country)) {
+  const validateCountry = (country: string) => {
+    if (!isValidCountry(country)) {
       dispatch(submitFormError("country", "Select a country"));
     } else {
       dispatch(submitFormError("country", ""));
@@ -70,15 +71,13 @@ export default function Form() {
     const { ssn, email, phoneNumber, country } = form;
 
     if (
-      validateEmail(email) &&
+      isValidEmail(email) &&
       validator(phoneNumber) &&
       Personnummer.valid(ssn) &&
-      validateCountry(country)
+      isValidCountry(country)
     ) {
       dispatch(submitFormSuccess());
       console.log("Success");
-    } else {
-      validateErrors(ssn, phoneNumber, email, country);
     }
   };
 
@@ -90,6 +89,7 @@ export default function Form() {
         placeholder="Social Security Number"
         value={form.ssn}
         error={errors.ssn}
+        validateError={validateSSN}
         submitRockerForm={submitRockerForm}
         updateFormInput={updateFormInput}
       />
@@ -98,6 +98,7 @@ export default function Form() {
         placeholder="Phone Number"
         value={form.phoneNumber}
         error={errors.phoneNumber}
+        validateError={validatePhoneNumber}
         submitRockerForm={submitRockerForm}
         updateFormInput={updateFormInput}
       />
@@ -106,13 +107,15 @@ export default function Form() {
         placeholder="Email"
         value={form.email}
         error={errors.email}
+        validateError={validateEmail}
         submitRockerForm={submitRockerForm}
         updateFormInput={updateFormInput}
       />
       <PickerSelect
         countries={countries}
-        value={form.country || ""}
+        value={form.country}
         error={errors.country}
+        validateError={validateCountry}
         updateFormInput={updateFormInput}
       />
       <View style={styles.button}>
@@ -138,6 +141,7 @@ const styles = StyleSheet.create({
     width: "80%",
     marginTop: 20,
     marginBottom: 20,
+    padding: 10,
   },
   title: {
     fontSize: 25,
