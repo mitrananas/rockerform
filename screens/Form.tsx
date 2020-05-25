@@ -85,7 +85,7 @@ export default function Form() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>RockerForm!</Text>
+      <Text style={styles.title}>RockerForm</Text>
       <FormInput
         name="ssn"
         placeholder="Social Security Number"
