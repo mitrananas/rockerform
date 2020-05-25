@@ -1,5 +1,13 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Platform, Text, View, Button } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Platform,
+  Text,
+  View,
+  Button,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Personnummer from "personnummer";
@@ -82,55 +90,61 @@ export default function Form() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>RockerForm</Text>
-      <FormInput
-        name="ssn"
-        placeholder="Social Security Number"
-        value={form.ssn}
-        error={errors.ssn}
-        validateError={validateSSN}
-        submitRockerForm={submitRockerForm}
-        updateFormInput={updateFormInput}
-      />
-      <FormInput
-        name="phoneNumber"
-        placeholder="Phone Number"
-        value={form.phoneNumber}
-        error={errors.phoneNumber}
-        validateError={validatePhoneNumber}
-        submitRockerForm={submitRockerForm}
-        updateFormInput={updateFormInput}
-      />
-      <FormInput
-        name="email"
-        placeholder="Email"
-        value={form.email}
-        error={errors.email}
-        validateError={validateEmail}
-        submitRockerForm={submitRockerForm}
-        updateFormInput={updateFormInput}
-      />
-      <PickerSelect
-        countries={countries}
-        value={form.country}
-        error={errors.country}
-        validateError={validateCountry}
-        updateFormInput={updateFormInput}
-      />
-      <View style={styles.button}>
-        <Button
-          title={"Submit"}
-          color={Platform.OS === "ios" ? "#fff" : "#a19196"}
-          onPress={() => submitRockerForm()}
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <Text style={styles.title}>RockerForm</Text>
+        <FormInput
+          name="ssn"
+          placeholder="Social Security Number"
+          value={form.ssn}
+          error={errors.ssn}
+          validateError={validateSSN}
+          submitRockerForm={submitRockerForm}
+          updateFormInput={updateFormInput}
         />
-      </View>
-    </View>
+        <FormInput
+          name="phoneNumber"
+          placeholder="Phone Number"
+          value={form.phoneNumber}
+          error={errors.phoneNumber}
+          validateError={validatePhoneNumber}
+          submitRockerForm={submitRockerForm}
+          updateFormInput={updateFormInput}
+        />
+        <FormInput
+          name="email"
+          placeholder="Email"
+          value={form.email}
+          error={errors.email}
+          validateError={validateEmail}
+          submitRockerForm={submitRockerForm}
+          updateFormInput={updateFormInput}
+        />
+        <PickerSelect
+          countries={countries}
+          value={form.country}
+          error={errors.country}
+          validateError={validateCountry}
+          updateFormInput={updateFormInput}
+        />
+        <View style={styles.button}>
+          <Button
+            title={"Submit"}
+            color={Platform.OS === "ios" ? "#fff" : "#a19196"}
+            onPress={() => submitRockerForm()}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: "#383e42",
+  },
+  scrollView: {
     flex: 1,
     backgroundColor: "#383e42",
     alignItems: "center",

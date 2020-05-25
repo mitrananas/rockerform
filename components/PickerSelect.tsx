@@ -52,14 +52,15 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   pickerWrapper: {
-    height: 40,
+    height: 60,
     borderWidth: 2,
+    borderRadius: 8,
     borderColor: "gray",
     justifyContent: "center",
     backgroundColor: "#fff",
   },
   inputIOS: {
-    padding: 5,
+    padding: 8,
     fontSize: 16,
   },
   inputValid: {

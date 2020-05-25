@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
-import { submitFormError } from "../actions";
 
 interface Props {
   value: string;
@@ -46,9 +45,10 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   textInputContainer: {
-    height: 40,
+    height: 60,
     borderWidth: 2,
-    padding: 5,
+    borderRadius: 8,
+    padding: 8,
     fontSize: 16,
     backgroundColor: "#fff",
   },
