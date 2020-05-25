@@ -68,7 +68,6 @@ export default function Form() {
 
   const submitRockerForm = () => {
     const { ssn, email, phoneNumber, country } = form;
-    console.log(ssn, email, phoneNumber, country);
 
     if (
       validateEmail(email) &&

@@ -19,10 +19,7 @@ export const submitFormSuccess = () => ({
   type: SUBMIT_FORM_SUCCESS,
 });
 
-export const submitFormError = (
-  fieldName: string = "email",
-  error: string = "bajs"
-) => ({
+export const submitFormError = (fieldName: string, error: string) => ({
   type: SUBMIT_FORM_ERROR,
   fieldName,
   error,

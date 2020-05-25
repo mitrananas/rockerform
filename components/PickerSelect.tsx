@@ -12,7 +12,7 @@ interface Props {
 export default function PickerSelect({
   countries,
   value,
-  error = "bajs",
+  error,
   updateFormInput,
 }: Props) {
   return (
